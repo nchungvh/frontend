@@ -1,4 +1,5 @@
-import numpy as np 
+import numpy as np
+
 
 class QueryMachine():
     def __init__(self, results=None):
@@ -8,7 +9,7 @@ class QueryMachine():
         self.results = results
 
     def search(self, src_type, src_name, target_type, k=5):
-        print("src name",src_name)
+        print("src name", src_name)
         print(src_type, src_name, target_type)
         if self.results is None:
             return ['Not init yet']
@@ -23,6 +24,3 @@ class QueryMachine():
                 return self.results['tech_com'][src_name][:k]
         except:
             return []
-
-
-

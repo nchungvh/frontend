@@ -161,17 +161,17 @@
                     <div style="margin: 0 25%;" >
                     {% endif %}
                         {% for model in datasets %}
-                        <div class="result-model" id="result-{{model.id}}">
+                        <div class="result-model">
                             <div class="header">Model {{ loop.index }} <span> ({{model.metaFile}})</span></div>
-                            <div class="content">
-                                <div class="w3-row">
+                            <div class="content" id="result-{{model.id}}">
+                                <!-- <div class="w3-row">
                                     <div class="w3-col s6" id ="result1-{{model.id}}">
                                         
                                     </div>
                                     <div class="w3-col s6" id="result2-{{model.id}}">
                                         
-                                    </div>
-                                </div>
+                                    </div> -->
+                                <!-- </div> -->
                                     
                                 <!-- <div class="item-keyword">
                                     <div style="padding: 5px 5px 0px 0">
@@ -184,7 +184,34 @@
                                 </div> -->
                                 <!-- <h3 style="text-align: center;color: #999; margin: 30% 0;font-weight: 400;">No results</h3> -->
                             </div>
-                        </div> 
+                            
+                        </div>
+
+                        <div class="result-model" style="display: none;" id ="result-detail">
+                            <div class="header">Model {{ loop.index }} <span> Detail of Query</span></div>
+                            <div class="content">
+                                <!-- <div class="w3-row">
+                                    <div class="w3-col s6" id ="result1-{{model.id}}">
+                                        
+                                    </div>
+                                    <div class="w3-col s6" id="result2-{{model.id}}">
+                                        
+                                    </div> -->
+                                <!-- </div> -->
+                                    
+                                <!-- <div class="item-keyword">
+                                    <div style="padding: 5px 5px 0px 0">
+                                        <img src="http://icons.iconarchive.com/icons/double-j-design/childish/128/Key-icon.png"
+                                            width="18px"
+                                            height="18px"
+                                        >
+                                    </div>
+                                    <div style="padding: 4px;">binz</div>
+                                </div> -->
+                                <!-- <h3 style="text-align: center;color: #999; margin: 30% 0;font-weight: 400;">No results</h3> -->
+                            </div>
+                            
+                        </div>
                         {% endfor %}
 
                         

@@ -1,4 +1,5 @@
 $(function () {
+    let dataResult = []
     $('#search').click(function () {
     	$('#result').hide();
     	$('#loading').show();
@@ -13,13 +14,11 @@ $(function () {
              '/' + document.getElementById('num-of-keywords').value,
             //  '&k=10' + document.getElementById('num_return').value,
             success: function (data) {
-                console.log(data);
+                dataResult = data;
                 // resultModels =                
                 
                 for (i = 0; i < data.length; i++) {
-                        let idResult1 = '#result1-model' + (i + 1);
-                        let idResult2 = '#result2-model' + (i + 1);
-                        let idResult = '#result-model' + (i + 1) + " .content"
+                        let idResult = '#result-model' + (i + 1)
                         // $('#result-wrapper').append('<p>' + data[i]+ '</p>');
                         
 
@@ -34,18 +33,12 @@ $(function () {
     
                             }
                             else{
-                                $(idResult1).html('');
-                                $(idResult2).html('');
-                                
-
-
-        
+                                $(idResult).html('');
                                 for(j=0; j<data[i].length;j++){
-                                    console.log(data[i][j])
                                     let m = data[i][j]
                                     let value = m["value"]
                                     let address = m["address"]
-                                        $(idResult1).append(
+                                        $(idResult).append(
                                             `
                                             <div class="item-keyword">
                                             <div>
@@ -55,24 +48,13 @@ $(function () {
                                                 >
                                             </div>
                                             <div style="padding: 4px;">` + value + `</div>
-                                        </div>
+                                            <div>
+
+                                            <button type="button" class="button" id=button-${i}-${j}>Detail<button>
+                                            </div>
+                                            </div>
                                         `
                                         );
-                                        $(idResult2).append(
-                                            `
-                                            <div class="item-keyword">
-                                            <div>
-                                                <img src="http://icons.iconarchive.com/icons/double-j-design/childish/128/Key-icon.png"
-                                                    width="18px"
-                                                    height="18px"
-                                                >
-                                            </div>
-                                            <div style="padding: 4px;">` + address + `</div>
-                                        </div>
-                                        `
-                                        )
-
-
         
                                     
                             }
@@ -98,6 +80,27 @@ $(function () {
             }
         });
     });
+    $(document).on("click", ".button", function(e){
+        let id = e.target.id;
+        let i = Number(id.split("-")[1])
+        let j = Number(id.split("-")[2])
+        let add = dataResult[i][j]["address"]
+        $("#result-detail").css("display","block")
+        let idResult = "#result-detail" + " .content"
+        $(idResult).html("")
+        $(idResult).append(
+                    `<div class="item-keyword">
+                                             <div>
+                                                <img src="http://icons.iconarchive.com/icons/double-j-design/childish/128/Key-icon.png"
+                                                     width="18px"
+                                                    height="18px"
+                                                 >
+                                             </div>
+                                             <div style="padding: 4px;">` + add + `</div>
+                                         </div>`
+        )
+    })
+    
 });
 
 // function updateDataset() {
