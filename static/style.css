@@ -413,7 +413,6 @@ input::-webkit-calendar-picker-indicator {
   background-color: #ea374a; /* Green */
   border: none;
   color: white;
-  padding: 8px;
   text-align: center;
   text-decoration: none;
   display: inline-block;

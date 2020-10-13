@@ -40,17 +40,13 @@ $(function () {
                                     let address = m["address"]
                                         $(idResult).append(
                                             `
-                                            <div class="item-keyword">
-                                            <div>
-                                                <img src="http://icons.iconarchive.com/icons/double-j-design/childish/128/Key-icon.png"
-                                                    width="18px"
-                                                    height="18px"
-                                                >
+                                            <div class="w3-row">
+                                            <div class="w3-col s8">
+                                            <p>`+ value+ `</p>
                                             </div>
-                                            <div style="padding: 4px;">` + value + `</div>
-                                            <div>
+                                            <div class="w3-col s4" style=justify-content: flex-end; margin-top: 10px;">
 
-                                            <button type="button" class="button" id=button-${i}-${j}>Detail<button>
+                                            <button type="button" class="btn" id=button-${i}-${j}>Detail</button>
                                             </div>
                                             </div>
                                         `
