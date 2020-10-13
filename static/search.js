@@ -46,7 +46,7 @@ $(function () {
                                             </div>
                                             <div class="w3-col s4" style=justify-content: flex-end; margin-top: 10px;">
 
-                                            <button type="button" class="btn" id=button-${i}-${j}>Detail</button>
+                                            <button type="button" class="button" id=button-${i}-${j}>Detail</button>
                                             </div>
                                             </div>
                                         `
