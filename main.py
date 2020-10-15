@@ -77,13 +77,13 @@ def search(src_type, src_name, target_type, k):
     results = []
     print("queryMachines", len(queryMachines))
     for qMachine in queryMachines:
-        searches = qMachine.search(src_type, src_name, target_type, int(k))
+        names, contents = qMachine.search(src_type, src_name, target_type, int(k))
         adds = []
-        for i, s in enumerate(searches):
+        for i, name in enumerate(names):
             info = {}
 
-            info["value"] = s
-            info["address"] = i
+            info["value"] = name
+            info["address"] = contents[i]
             adds.append(info)
         results.append(adds)
 
