@@ -1,0 +1,98 @@
+<html>
+
+<head>
+    <title>success</title>
+    <!-- <link rel="stylesheet" href="/static/awesomplete.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <style type="text/css">
+      #form {
+        margin-top: 10vh;
+        text-align: center;
+      }
+      .form-control {
+        display: inline;
+        width: 200px;
+      }
+      select {
+        width: 100px;
+      }
+      #loading {
+        position: fixed;
+        width: 50px;
+        top: 50vh;
+        left: 50vw;
+        transform: translateX(-50%);
+        display: none;
+      }
+  </style>
+  	    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    
+    <!-- <input class="awesomplete" list="mylist" /> -->
+    <div id='form' class="row">
+        <div class="col-sm-12">
+            <p>File of vectors: {{emb_name}}</p>
+        <p>File of metadata: {{meta_name}}</p>
+        </div>
+        <div class="col-sm-6">
+            Query type 
+            <select id="query_type" name="query_type" onchange="myFunction()" class="form-control">
+                {% for type in types %}
+                <option value={{type}}>{{type}}</option>
+                {% endfor %}
+            </select>
+            <input type="text" name="term" list="mylist" id="src_name"  class="form-control"/>
+            <datalist id="mylist">
+                {% for name in name_dict[types[0]] %}
+                <option>{{name}}</option>
+                {% endfor %}
+            </datalist>
+        </div>
+        <div class="col-sm-6">
+            Target type 
+            <select id="target_type" name="target_type" class="form-control">
+                {% for type in types %}
+                <option value={{type}}>{{type}}</option>
+                {% endfor %}
+            </select>
+            <input type="text" name="num_return" id="num_return" placeholder="Num return" class="form-control"/>
+        </div>
+        <div class="col-sm-12" style="margin-top: 20px;">
+            <button id="search" class="btn btn-success"><i class="fa fa-search"></i> Search</button>
+        </div>
+    </div>
+    <div id="rs_wrapper" style="display: none;text-align:center;margin-top:100px">
+        <div style="margin-bottom:20px"><b>RESULTS</b></div> 
+        <div id='result'></div>
+    </div>
+    <img id="loading" src="https://media.giphy.com/media/s4KqhlPU9Ypnq/giphy.gif">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="/static/search.js"></script>
+    <!-- <script src="/static/autocomplete.js"></script> -->
+    <script>
+        function myFunction() {
+            var query_type = document.getElementById("query_type").value;
+            // console.log(query_type)
+            var mylist = document.getElementById("mylist");
+            var namedict = '{{ name_dict | tojson }}';
+            var a = JSON.parse(namedict);
+            var namelist = a[query_type];
+            console.log(namelist);
+            console.log(namedict);
+
+            var x = '';
+            for (i = 0; i < namelist.length; i++) {
+                // console.log(namelist[i])
+                x += ('<option>' + namelist[i]+ '</option>');
+            }
+            mylist.innerHTML = x;
+        }
+    </script>
+</body>
+
+</html>
