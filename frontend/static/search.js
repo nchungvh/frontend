@@ -143,14 +143,7 @@ $(function() {
                                 temp +=
                                     `
                                     <div class="w3-row" style="margin:0 10%">
-                                    <div class="w3-col s8">
                                     <p>` + value + `</p>
-                                    </div>
-                                    <div class="w3-col s4" style=justify-content: flex-end; margin-top: 10px;">
-
-                                    </div>
-                                    
-
                                     </div>
                                 `
                             }
@@ -230,20 +223,19 @@ function changeNumDatasets() {
     console.log(e.value);
     const numDatasets = e.value;
     document.getElementById("numDatasets").setAttribute("value", numDatasets);
+    console.log(document.getElementById("numDatasets"));
     $('#listModels').html('');
     for (i = 1; i <= numDatasets; i++) {
-        let idModel = 'model' + i;
-        $('#listModels').append(`
-        <div class="upload-model">
-            <h4 class="header">Model ` + i + `</h4>
-            <div class="content">
-                <div class="item-upload">
-                    <button type="button" class="btn-choose-file" onclick="document.getElementById('meta_file_` + idModel + `').click();">Choose file</button>
-                    <input type="file" name="meta_file_` + idModel + `" id="meta_file_` + idModel + `" style="display: none;" />
-                </div>
+        let idModel = 'model ' + i;
+        $('#listModels').append(`<div class="upload-model">
+        <h4 class="header">model ` + i + `</h4>
+        <div class="content">
+            <div class="item-upload">
+                <button type="button" class="btn-choose-file" onclick="document.getElementById('knn` + i + `').click();">Model ` + i + `</button>
+                <input type="file" name="knn` + i + `" id="knn` + i + `" style="display: none;" />
             </div>
         </div>
-        `);
+    </div>`);
     }
     $('input[type=file]').change(function(e) {
         var fileName = e.target.files[0].name;

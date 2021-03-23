@@ -24,21 +24,23 @@
                     Datasets
                 </h4>
                 <div>
-                    <input type="text" class="number-input" id="num-of-datasets" onchange="changeNumDatasets()" value='{{ datasets | length}}'>
+                    <input type="text" class="number-input" id="num-of-datasets" onchange="changeNumDatasets()" value='{{dataFiles|length}}'>
                 </div>
             </div>
             <form action="/success" method="post" enctype="multipart/form-data">
-                {% for model in dataFiles %}
-                <div class="upload-model">
-                    <h4 class="header">model {{loop.index0}}</h4>
-                    <div class="content">
-                        <div class="item-upload">
-                            <button type="button" class="btn-choose-file" onclick="document.getElementById('{{model.id}}').click();">{{model.metaFile}}</button>
-                            <input type="file" name="{{model.id}}" id="{{model.id}}" style="display: none;" />
+                <div id="listModels">
+                    {% for model in dataFiles %}
+                    <div class="upload-model">
+                        <h4 class="header">Model {{loop.index0 + 1}}</h4>
+                        <div class="content">
+                            <div class="item-upload">
+                                <button type="button" class="btn-choose-file" onclick="document.getElementById('{{model.id}}').click();">{{model.metaFile}}</button>
+                                <input type="file" name="{{model.id}}" id="{{model.id}}" style="display: none;" />
+                            </div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
 
                 <!-- <div>
                     <input type="submit" class="btn" value="Upload">
@@ -77,9 +79,9 @@
                 <div class="item-search">
                     <div>
                         <div style="margin-top: 10px;">
-                            <button class="btn" id="search" style="width: 31%;height: 70%;margin-left: 0%;display: inline-block;">Search </button>
-                            <button class="btn" id="upsearch" style="width: 31%;height: 70%;margin-left: 0%;display: inline-block;">Up Category Search </button>
-                            <button class="btn" id="downsearch" style="width: 31%;height: 70%;margin-left: 0%;display: inline-block;">Down Category Search </button>
+                            <button class="btn" id="search" style="width: 31%;height: 70%;margin-left: 0%;display: inline-block;border: burlywood;">Search </button>
+                            <button class="btn" id="upsearch" style="width: 31%;height: 70%;margin-left: 0%;display: inline-block;border: burlywood;">Up Category Search </button>
+                            <button class="btn" id="downsearch" style="width: 31%;height: 70%;margin-left: 0%;display: inline-block;border: burlywood;">Down Category Search </button>
                         </div>
                     </div>
                 </div>

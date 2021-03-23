@@ -11,18 +11,18 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 query_machine = []  # QueryMachine()
 queryMachines = []
-NUM_MODEL = int(sys.argv[1])
-WIDTH = 90/NUM_MODEL
+# NUM_MODEL = 0
+# WIDTH = 90/NUM_MODEL
 @app.route('/')
 def upload():
-    global WIDTH
+    WIDTH = 1
     # return render_template("file_upload_form.html")
-    global NUM_MODEL
+    NUM_MODEL = 0
     dataFiles = []
     for i in range(NUM_MODEL):
         dataFiles.append({
             'width': WIDTH,
-            "id": "knn" + str(i),
+            "id": "knn" + str(i+1),
             "metaFile": "Choose file",
             "embFile": "Choose file"
         })
@@ -42,22 +42,24 @@ def clean(string):
 def success():
     dataFiles = []
     if request.method == 'POST':
+        global NUM_MODEL
+        NUM_MODEL = int(request.form['numDatasets'])
         # numDatasets = int(request.form['numDatasets'])
         global WIDTH
+        WIDTH = 90/NUM_MODEL
         global queryMachines
-        global NUM_MODEL
         queryMachines = []
         # Dictionary from type (comp, tech) to list of comps, techs
         name_dict = {}
         knns = []
         for i in range(NUM_MODEL):
-            meta_f = request.files['knn' + str(i)]
+            meta_f = request.files['knn' + str(i+1)]
             assert meta_f.filename.endswith('json')
             meta_f.save("temp_" + meta_f.filename)
             knns.append(get_knn("temp_" + meta_f.filename))
             dataFiles.append({
                 'width': WIDTH,
-                "id": "knn" + str(i),
+                "id": "knn" + str(i+1),
                 "metaFile":  meta_f.filename[:-5]
             })
         

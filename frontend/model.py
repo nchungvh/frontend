@@ -10,15 +10,15 @@ class QueryMachine():
         self.process_tree(taxonomy) # for up down tree entity
 
     def process_tree(self, taxonomy):
-        self.downent = taxonomy
-        self.upent = {}
-        for upent in self.downent:
-            for ent in self.downent[upent]:
-                if ent not in self.upent:
-                    self.upent[ent] = []
-                self.upent[ent].append(upent)
-        self.upent = self.min_depth(self.upent)
-        self.downent = self.max_depth(self.downent)
+        self.upent = taxonomy
+        self.downent = {j: i for (i,j) in taxonomy.items()}
+        # for upent in self.downent:
+        #     for ent in self.downent[upent]:
+        #         if ent not in self.upent:
+        #             self.upent[ent] = []
+        #         self.upent[ent].append(upent)
+        # self.upent = self.min_depth(self.upent)
+        # self.downent = self.max_depth(self.downent)
 
     
     def max_depth(self, tree):
@@ -59,7 +59,7 @@ class QueryMachine():
         for index, ent in enumerate(ents):
             if ent in self.upent:
                 print('okeeeeeeeeeeeeeeeeeeeeeee')
-                ents[index] = self.upent[ent][0]
+                ents[index] = self.upent[ent]
         return ents
     
     def downsearch(self, src_name,model_index, k=5):
@@ -67,5 +67,5 @@ class QueryMachine():
         for index, ent in enumerate(ents):
             if ent in self.downent:
                 print('okeeeeeeeeeeeeeeeeeeeeeee')
-                ents[index] = self.downent[ent][0]
+                ents[index] = self.downent[ent]
         return ents
