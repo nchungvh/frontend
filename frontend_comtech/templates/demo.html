@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embedding Search</title>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+
+<body>
+    <h2 style="text-align: center; color: #DB1430;">
+        <a href="/">
+            Search
+        </a>
+    </h2>
+    <div class="container">
+        <div class="component" id="upload-component">
+            <div style="margin: 32px 0 20px 0;">
+                <h4 class="section-font">
+                    Datasets
+                </h4>
+                <div>
+                    <input type="text" class="number-input" id="num-of-datasets" onchange="changeNumDatasets()" value='{{dataFiles|length}}'>
+                </div>
+            </div>
+            <form action="/success" method="post" enctype="multipart/form-data">
+                <div id="listModels">
+                    {% for model in dataFiles %}
+                    <div class="upload-model">
+                        <h4 class="header">Model {{loop.index0 + 1}}</h4>
+                        <div class="content">
+                            <div class="item-upload">
+                                <button type="button" class="btn-choose-file" onclick="document.getElementById('{{model.id}}').click();">{{model.metaFile}}</button>
+                                <input type="file" name="{{model.id}}" id="{{model.id}}" style="display: none;" />
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- <div>
+                    <input type="submit" class="btn" value="Upload">
+                    <input type="hidden" name="numDatasets" id="numDatasets" value="1">
+                </div> -->
+
+
+                <div class="upload-model">
+                    <h4 class="header">Taxonomy tree input</h4>
+                    <div class="content">
+                        <div class="item-upload">
+                            <button type="button" class="btn-choose-file" onclick="document.getElementById('taxonomy').click();">{{taxonomy.metaFile}}</button>
+                            <input type="file" name="taxonomy" id="taxonomy" style="display: none;" />
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <input type="submit" class="btn" value="Upload">
+                    <input type="hidden" name="numDatasets" id="numDatasets" value="1">
+                </div>
+            </form>
+        </div>
+        <div id="search-container" class="component">
+            <div id="search-component">
+                <div class="item-search">
+                    <div style="padding-bottom: 2px; border-bottom: 1px solid #dddddd;">
+                        <input type="text" list="mylist" class="input-item-search" spellcheck="false" id="src_name" name="search">
+                        <datalist id="mylist">
+                            {% for name in name_dict %}
+                            <option>{{name}}</option>
+                            {% endfor %}
+                        </datalist>
+                    </div>
+                </div>
+                <div class="item-search">
+                    <div>
+                        <div style="margin-top: 10px;">
+                            <button class="btn" id="search" style="width: 31%;height: 70%;margin-left: 0%;display: inline-block;border: burlywood;">Search </button>
+                            <button class="btn" id="upsearch" style="width: 31%;height: 70%;margin-left: 0%;display: inline-block;border: burlywood;">Up Category Search </button>
+                            <button class="btn" id="downsearch" style="width: 31%;height: 70%;margin-left: 0%;display: inline-block;border: burlywood;">Down Category Search </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="result-component">
+                <div>
+                    <!-- <div style="font-size: 0.95em;margin: 0;">
+                        NEAREST KEYWORDS
+                    </div> -->
+                    <div style="padding: 0;  text-align: right;">
+                        <span>Number of results</span>
+                        <span><input type="text" class="number-input" id="num-of-keywords" value="5"></span>
+                    </div>
+                </div>
+                <div id="loading">
+                    <img src="https://media.giphy.com/media/s4KqhlPU9Ypnq/giphy.gif" width="30px">
+                </div>
+                <div id="result">
+                    <!-- <h3 style="text-align: center;color: #999; margin-top: 20%;font-weight: 400;">No results</h3> -->
+                    <div style="font-size: 0.95em; text-align: center;margin: 10px 0 30px 0;">
+                        RESULTS
+                    </div>
+                    <div style="padding-left: 10%;">
+                        {% for model in dataFiles %}
+                        <div id='knn-{{loop.index0}}' style="display: inline-block; width: {{model.width}}%;"></div>
+                        {% endfor %}
+                    </div>
+                    <div id='result-detail'></div>
+
+                    <!-- {% if (datasets|length) > 2 %} -->
+                    <!-- <div id="content-result"> -->
+                    <!-- {% elif (datasets|length) == 2 %} -->
+                    <!-- <div style="display: grid;grid-template-columns: repeat(2,1fr);grid-gap: 20px;"> -->
+                    <!-- {% else %} -->
+                    <div style="margin: 0 25%;">
+                        <!-- {% endif %} -->
+                        <!-- {% for model in datasets %} -->
+                        <div class="result-model">
+                            <div class="header">Embs <span> ({{embs.metaFile}})</span></div>
+                            <div class="content" id="result-{{embs.id}}">
+                            </div>
+
+                        </div>
+
+                        <div class="result-model" style="display: none;" id="result-detail">
+                            <div class="header">Embs <span> Detail of Query</span></div>
+                            <div class="content">
+                            </div>
+
+                        </div>
+                        <!-- {% endfor %} -->
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- </div> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="/static/search.js"></script>
+        <script type="text/javascript">
+            $('input[type=file]').change(function(e) {
+                var fileName = e.target.files[0].name;
+                $(this).parent().find('button').text(fileName);
+                // updateDataset();
+            });
+
+            function hoverDatasets(isHover) {
+                // let uModels = document.getElementsByClassName("upload-model");
+                let numDatasets = parseInt(document.getElementById("num-of-datasets").value);
+                let cModels = document.getElementById("container-models");
+                // uModels[uModels.length-1].style.marginBottom = numDatasets > 1 ? '0' : '30px' ;
+                // cModels.style.overflow = numDatasets == 2 ? "hidden" : "auto";
+                cModels.style.padding = numDatasets > 2 & isHover ? '0 25px 0 30px' : '0 30px';
+            }
+        </script>
+        <script>
+            function suggestQuery() {
+                var query_type = document.getElementById("query_type").value;
+                var mylist = document.getElementById("mylist");
+                var namedict = '{{ name_dict | tojson }}';
+                var a = JSON.parse(namedict);
+
+                var namelist = a[query_type];
+
+                var x = '';
+                for (i = 0; i < namelist.length; i++) {
+                    // console.log(namelist[i])
+                    x += ('<option>' + namelist[i] + '</option>');
+                }
+                mylist.innerHTML = x;
+            }
+        </script>
+        <script src="/static/dropdown.js"></script>
+
+</body>
+
+</html>
